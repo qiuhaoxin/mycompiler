@@ -2,7 +2,7 @@ module.exports=function(){
 	return {
 		babelrc:false,
 		presets:[
-          [require.resolve('bable-preset-umi'),{
+          [require.resolve('babel-preset-umi'),{
           	targets:process.env.NODE_TARGET?{
           		node:6,
           	}:null,
