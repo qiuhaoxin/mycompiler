@@ -62,7 +62,27 @@ function build(){
 	  }))
 	  .pipe(vfs.dest('./lib/'));
 }
-function 
+function test(noCoverage){
+
+}
+function runCommand(cmd){
+	console.log(chalk.green.bold(`>>${cmd}`));
+	const command=(os.platform()==='win32'?'cmd.exe':'sh');
+	const args=(os.platform()==='win32'?['/s','/c']:['-c']);
+	return spawn(command,args.concat([cmd]),{
+		stdio:'inherit',
+	});
+}
+function pub(){
+	build()
+	  .on('end',()=>{
+	  	const name=JSON.parse(readFileSync(join(cwd,'package.json'),'utf-8')).name;
+	  	const cmd=args.indexOf('--beta')>-1?`npm publish --beta`:`npm publish`;
+	  	runCommand(cmd).on('exit',()=>{
+	  		console.log(chalk.green.bold(`finish publish!`))
+	  	})
+	  })
+}
 
 if(process.argv[2]==='-v'||process.argv[2]==='--version'){
 	const pkg=require('../package.json');
